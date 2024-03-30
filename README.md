@@ -286,9 +286,9 @@ else:
 
 ![스크린샷 2024-03-30 183832](https://github.com/leonadro-3/python/assets/69701682/728455f8-071d-4174-a452-15b9c054e435)
 
-> 01 반복문으로 해당하는 모든 row값을 외부 빈 리스트에 선언하여 select_data_list를 사용할 수 있게 되었다.
-> 02 첫번째 row 값(#select_data_list_1 = select_data_list[0])은 "[제22대_국회의원선거]_후보자_명부[국회의원선거][서울특별시][강남구갑].xlsx"이 된다. 
-> 03 이 row 값의 36:len(select_data_list_1)-6 을 하여 해당하는 인덱스의 문자열만 가져오면 원하는 강남구갑을 가져올 수 있게 된다.
-> 04 "select_data"에 들어있는 문자열들을 인덱스를 기준으로 하나씩 가져오고 각각의 row에 해당하는 문자열에 "36:len(select_data_list_1)-6"이라는 범위을 넣어서 모두 가져와보자.
+> 01. 반복문으로 해당하는 모든 row값을 외부 빈 리스트에 선언하여 select_data_list를 사용할 수 있게 되었다.
+> 02. 첫번째 row 값(#select_data_list_1 = select_data_list[0])은 "[제22대_국회의원선거]_후보자_명부[국회의원선거][서울특별시][강남구갑].xlsx"이 된다. 
+> 03. 이 row 값의 36:len(select_data_list_1)-6 을 하여 해당하는 인덱스의 문자열만 가져오면 원하는 강남구갑을 가져올 수 있게 된다.
+> 04. "select_data"에 들어있는 문자열들을 인덱스를 기준으로 하나씩 가져오고 각각의 row에 해당하는 문자열에 "36:len(select_data_list_1)-6"이라는 범위을 넣어서 모두 가져와보자.
 
 
