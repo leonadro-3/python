@@ -105,7 +105,7 @@ print(df1.head())
 
 > 1-2. 두번째 문자열 (행정구역 - 노랑색)
 > 35번 이후부터는 행정구역별로 문자열의 길이가 달라짐. 예를들면 강동구(갑,을),영등포구(갑,을)이 있음.
-> 따라서 갑,을,병,정,무,기,경,신,임,계 ... 순으로 되었을 때 해당하는 12지신 글자가 온다면 
+> 따라서 갑,을,병,정,무,기,경,신,임,계 ... 순으로 되었을 때 해당하는 10간간 글자가 온다면 
 > 파일마다 달라지는 두번째 문자열의 인덱스를 특정할 수 있음.
 
 > 01. 파일별로 문자열이 길이가 달라지는 것을 확인해보자. (파일별 이름의 길이는 일정하지 않음)
@@ -207,7 +207,7 @@ for i in range(48):
 > 이중 50개만 탐색한 결과를 가지고 나머지 데이터의 성질을 판단하는 것은 옳지 않다. 반면에 10억개의 데이터를 하나하나 들여다 보는 것 또한 매우 비효율적이다.
 > 따라서 특정한 패턴을 가지는 데이터를 찾고 해당 패턴으로 대부분의 데이터를 파악할 수 있다면 굳이 10억개를 일일이 보지 않아도 된다.
 > 그렇지만 가장 큰 문제는 데이터도 많고 패턴도 많은 경우이다. 이런 경우에 어떻게 해결할 것인가?
-> 머신러닝을 사용할 수 밖에 없다.
+> 다양한 알고리즘을 이용하여 처리한다. 어차피 어떤 알고리즘을 쓴다고 하더라도 시간이 걸리는 것은 어쩔 수가 없다.
 
 ```
 import pandas as pd
@@ -223,4 +223,72 @@ for i in range(48):
 > 각 파일별 이름, 길이를 출력할 수 있다.
 
 ### 05-2 파일의 제목을 조건에 따라서 변경하고 싶은 경우 (두번째 문자열)
+
+> 2번째 문자열을 어떻게 처리할 것인지 생각해보자.
+> 행정구역만 뽑아내야 되는데 행정구역은 지역마다 다르지만 중복되는 경우도 있다.
+> 10계 접미사가 없다면 -> 그대로 행정구역이 된다.
+> 10계 접미사가 있다면 -> 10간 접미사를 제외하면 행정구역이 된다.
+
+```
+import pandas as pd
+
+df1 = pd.read_csv('./List_seoul/Seoul.csv', header=None)
+
+#print(df1.shape[0]) #row 값 = 파일의 갯수(반복문의 갯수)
+
+select_data_list = []  # 반복문 외부에 빈 리스트를 미리 선언
+
+for i in range(df1.shape[0]):
+    select_data = df1.iloc[i][0] #모든 row의 값
+    select_data_list.append(select_data)  # select_data를 리스트에 추가
+
+# 반복문 외부에서 select_data_list를 사용할 수 있음
+#print(select_data_list[0])
+#print(select_data_list[1])
+#print(select_data_list[2])
+#print(select_data_list)
+
+
+select_data_list_1 = select_data_list[0]
+
+print(select_data_list_1) #[제22대_국회의원선거]_후보자_명부[국회의원선거][서울특별시][강남구갑].xlsx
+print(select_data_list_1[0:35]) #[제22대_국회의원선거]_후보자_명부[국회의원선거][서울특별시]
+print(select_data_list_1[35:len(select_data_list_1)]) #[강남구갑].xlsx
+print(select_data_list_1[35:len(select_data_list_1)-5]) #[강남구갑]
+print(select_data_list_1[36:len(select_data_list_1)-6]) #강남구갑
+select_data_list_1_region = select_data_list_1[36:len(select_data_list_1)-6] #문자열에 갑이 포함되어 있습니다.
+
+if select_data_list_1_region.find("갑") != -1:
+    print("문자열에 '갑'이 포함되어 있습니다.")
+elif select_data_list_1_region.find("을") != -1:
+    print("문자열에 '을'이 포함되어 있습니다.")
+elif select_data_list_1_region.find("병") != -1:
+    print("문자열에 '병'이 포함되어 있습니다.")
+elif select_data_list_1_region.find("정") != -1:
+    print("문자열에 '정'이 포함되어 있습니다.")
+elif select_data_list_1_region.find("무") != -1:
+    print("문자열에 '무'이 포함되어 있습니다.")
+elif select_data_list_1_region.find("기") != -1:
+    print("문자열에 '기'이 포함되어 있습니다.")
+elif select_data_list_1_region.find("경") != -1:
+    print("문자열에 '경'이 포함되어 있습니다.")
+elif select_data_list_1_region.find("신") != -1:
+    print("문자열에 '신'이 포함되어 있습니다.")
+elif select_data_list_1_region.find("임") != -1:
+    print("문자열에 '임'이 포함되어 있습니다.")
+elif select_data_list_1_region.find("계") != -1:
+    print("문자열에 '계'이 포함되어 있습니다.")
+else:
+    print("문자열에 10간 접미사가 포함되어 있지 않습니다.")
+
+# "갑을병정무기경신임계" 10가지 경우로 나눠서 살펴볼 수 있다.
+```
+
+![스크린샷 2024-03-30 183832](https://github.com/leonadro-3/python/assets/69701682/728455f8-071d-4174-a452-15b9c054e435)
+
+> 01 반복문으로 해당하는 모든 row값을 외부 빈 리스트에 선언하여 select_data_list를 사용할 수 있게 되었다.
+> 02 첫번째 row 값(#select_data_list_1 = select_data_list[0])은 "[제22대_국회의원선거]_후보자_명부[국회의원선거][서울특별시][강남구갑].xlsx"이 된다. 
+> 03 이 row 값의 36:len(select_data_list_1)-6 을 하여 해당하는 인덱스의 문자열만 가져오면 원하는 강남구갑을 가져올 수 있게 된다.
+> 04 "select_data"에 들어있는 문자열들을 인덱스를 기준으로 하나씩 가져오고 각각의 row에 해당하는 문자열에 "36:len(select_data_list_1)-6"이라는 범위을 넣어서 모두 가져와보자.
+
 
